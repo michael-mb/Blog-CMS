@@ -6,6 +6,7 @@ import com.auth.template.demo.scopes.token.TokenServiceImpl;
 import com.auth.template.demo.scopes.user.entities.User;
 import com.auth.template.demo.scopes.user.entities.UserRole;
 import com.auth.template.demo.scopes.user.repositories.UserRepository;
+import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,8 +86,6 @@ public class UserService {
         return byId;
     }
 
-
-
     public boolean doesEmailAlreadyExists(final String email) {
         if (email == null) throw new NullPointerException("Email must not be null.");
         if (email.isEmpty()) throw new NullPointerException("Email must not be empty.");
@@ -126,6 +125,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public void deleteUser(Optional<Long> id){
+        if(id.isEmpty()) throw new NullPointerException("Id musst not be null");
+        if(findUserById(id.get()).isEmpty()) throw new NullPointerException("The user with this Id doesn't exist");
+
+        userRepository.deleteById(id.get());
+    }
     private String capitalize(String str){
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }

@@ -4,7 +4,7 @@
   <h3 class="title">ADMIN PANEL</h3>
   <div class="wrapper" v-for="(user,index) in allUsers" :key="index" >
     <div class="card">
-      <span class="fas fa-window-close close"></span>
+      <span class="fas fa-window-close close" v-if="user.id !== userInfos.id" @click="deleteUser(user.id)"></span>
       <h1 class="card__title">Profile {{index + 1}}</h1>
       <p class="card__subtitle">So i am ...</p>
       <p><span class="header">Firstname:</span> {{ user.firstname }}</p>
@@ -45,6 +45,15 @@ export default {
   computed: {
     allUsers: function (){
       return this.$store.state.users
+    },
+    userInfos : function (){
+      return this.$store.state.userInfos
+    },
+  },
+  methods : {
+    deleteUser(userId){
+      if(confirm("Do you really want to delete this user ?"))
+        this.$store.dispatch('deleteUser', userId)
     }
   }
 }

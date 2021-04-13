@@ -25,8 +25,10 @@ const store = createStore({
     state: {
         status: '',
         user: user,
-        userInfos:{},
-        users: []
+        userInfos:{
+        },
+        users: [],
+        articles: []
     },
     mutations: {
         setStatus: (state , status) => {
@@ -49,6 +51,12 @@ const store = createStore({
         loadUsers: (state, users) =>{
             state.users = users
         },
+        /*
+        loadArticles: (state, articles) =>{
+            state.articles = articles
+        },
+
+         */
         logout: (state) =>{
             state.user = {
                 id: -1,
@@ -91,7 +99,6 @@ const store = createStore({
                     commit('logUser' , user)
 
                     // i must getUserInfos directly
-
                     instance.post('/api/auth/info').
                     then((response) => {
                         commit('userInfos', response.data)
@@ -100,7 +107,6 @@ const store = createStore({
                         console.log(error)
 
                     })
-
                     resolve(response)
                 }).catch((error) =>{
                     commit('setStatus', 'error_login')
@@ -124,9 +130,25 @@ const store = createStore({
                 commit('loadUsers', response.data)
             }).catch((error) =>{
                 console.log(error)
-
             })
         },
+        deleteUser: ({commit} , userId) => {
+            instance.post('/api/auth/deleteUser/'+ userId).
+            then((response) => {
+                commit('loadUsers', response.data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        },
+        /*
+        getArticles: ({commit}) => {
+            instance.get('/api/blog/').
+            then((response) => {
+                commit('loadArticles', response.data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        }*/
     }
 })
 export default store;

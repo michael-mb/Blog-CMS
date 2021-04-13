@@ -109,7 +109,19 @@ public class AuthController {
 
         if(token.isEmpty())
             ResponseEntity.badRequest().body(new MessageResponse("An Error occured"));
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
 
+    @PostMapping("/deleteUser/{userId}")
+    public ResponseEntity<?> deleteUser(@RequestHeader (name="Authorization") Optional<String> token , @PathVariable Optional <Long> userId) {
+
+        if(token.isEmpty())
+            ResponseEntity.badRequest().body(new MessageResponse("An Error occured"));
+
+        if(userId.isEmpty())
+            ResponseEntity.badRequest().body(new MessageResponse("UserId is Empty"));
+
+        userService.deleteUser(userId);
         return ResponseEntity.ok(userService.getAllUsers());
     }
 

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top " :class="back"  id="mainNav">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top black"   id="mainNav">
     <div class="container">
       <a class="navbar-brand" href="/">#Michael</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,6 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <router-link to="/">Home</router-link>
-
           </li>
           <li class="nav-item">
             <router-link to="/blog">Blog</router-link>
@@ -31,7 +30,7 @@
             <router-link to="/contact">Contact Me</router-link>
           </li>
           <li class="nav-item">
-            <a v-if="isLoggedIn" @click="logout">Logout</a>
+            <a v-if="isLoggedIn" href="" @click="logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -44,6 +43,10 @@ export default {
   name: "Header",
   props:{
     back : String
+  },
+  mounted: function () {
+    if(this.isLoggedIn)
+      this.$store.dispatch('getUserInfos')
   },
   computed:{
     isLoggedIn: function (){
@@ -69,6 +72,9 @@ export default {
 <style scoped>
 .black{
   background: #000000 !important;
+}
+a{
+  cursor: pointer;
 }
 .black a , .black button {
   color: white !important;

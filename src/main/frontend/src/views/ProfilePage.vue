@@ -32,6 +32,7 @@ name: "ProfilePage",
     if(this.$store.state.user.id === -1){
       this.$router.push('/')
     }
+    this.$store.dispatch('getUserInfos')
   },
   methods:{
     logout(){

@@ -1,6 +1,9 @@
 package com.auth.template.demo.scopes.general;
 
 
+import com.auth.template.demo.scopes.blog.Entities.Article;
+import com.auth.template.demo.scopes.blog.Entities.TestArticle;
+import com.auth.template.demo.scopes.blog.services.ArticleService;
 import com.auth.template.demo.scopes.user.entities.TestUser;
 import com.auth.template.demo.scopes.user.entities.User;
 
@@ -16,16 +19,19 @@ public class Initializer {
     private static final Logger LOG = LoggerFactory.getLogger(Initializer.class);
 
     public UserService userService;
+    public ArticleService articleService;
 
     @Autowired
     public Initializer(UserService userService,
+                       ArticleService articleService,
                        final @Value("${spring.jpa.hibernate.ddl-auto}") String database ,
                        final @Value("${spring.profiles.active}") String profile){
 
         this.userService = userService;
-
+        this.articleService = articleService;
         if(setupDemoUsers(database)){
             setupTestUsers();
+            setupDemoArticles();
         }
     }
 
@@ -38,6 +44,15 @@ public class Initializer {
 
             userService.generateAndSaveNewValidationTokenForUser(user);
             userService.rehashPassword(testUser.password , user);
+        }
+    }
+
+    private void setupDemoArticles() {
+        LOG.info("Creating default Test Articles.");
+        Article article ;
+        for (TestArticle testArticle : TestArticle.values()) {
+            article = new Article(testArticle.title, testArticle.subtitle, testArticle.image, testArticle.text, testArticle.author);
+            articleService.saveArticle(article);
         }
     }
 
