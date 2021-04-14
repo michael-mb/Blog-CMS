@@ -1,7 +1,7 @@
 <template>
   <Header></Header>
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('img/post-bg.jpg')">
+  <header class="masthead" :style="articleImage">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -86,6 +86,11 @@ export default {
     },
     userInfos : function (){
       return this.$store.state.userInfos
+    },
+    articleImage: function (){
+      return {
+        "background-image" : 'url('+this.article.image+')'
+      }
     },
   },
   mounted() {

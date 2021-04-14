@@ -22,6 +22,7 @@ public class ArticleService {
 
     public void saveArticle(Article article){
         if(article == null) throw new NullPointerException("Article must no be null");
+        System.err.println(article);
         articleRepository.save(article);
     }
 
