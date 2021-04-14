@@ -4,25 +4,24 @@
     <h1 class="card__title" >POST NEW ARTICLE</h1>
 
     <div class="form-row">
-      <input class="form-row__input" type="text" placeholder="Title"/>
+      <input v-model="title" class="form-row__input" type="text" placeholder="Title"/>
     </div>
 
     <div class="form-row">
-      <input class="form-row__input" type="text" placeholder="Subtitle"/>
+      <input v-model="subtitle" class="form-row__input" type="text" placeholder="Subtitle"/>
     </div>
 
     <div class="form-row">
-      <input class="form-row__input" type="text" placeholder="/img/image1.jpg"/>
+      <input v-model="image" class="form-row__input" type="text" placeholder="/img/image1.jpg"/>
     </div>
 
     <div class="form-row">
-      <textarea class="form-row__input" rows="7" placeholder="text"/>
+      <textarea v-model="text" class="form-row__input" rows="7" placeholder="text"/>
     </div>
 
     <div class="form-row">
-      <button class="button">
-        <span v-if="updateStatus === 'loading'">Creation in progress...</span>
-        <span v-else>Post</span>
+      <button @click="addArticle"  :class="{'button--disabled' : !validatedFields}" class="button">
+        <span>Post</span>
       </button>
     </div>
   </div>
@@ -35,6 +34,41 @@ export default {
 
 name: "PostForm",
   components: {Header},
+  data () {
+    return {
+      title: '',
+      subtitle: '',
+      image: '',
+      text: '',
+      author: '',
+    }
+  },
+  computed:{
+    validatedFields: function () {
+        return !!(this.title !== '' && this.subtitle !== '' && this.image !== ''
+            && this.text);
+      },
+    userInfos : function (){
+      return this.$store.state.userInfos
+    },
+    },
+  methods :{
+    addArticle(){
+      const self = this;
+      this.$store.dispatch('createArticle' , {
+        title : this.title,
+        subtitle : this.subtitle,
+        image : this.image,
+        text : this.text,
+        author : this.userInfos.firstname + ' ' + this.userInfos.lastname
+      }).then( (response) => {
+        console.log(response)
+        self.$router.push("/blog")
+      }).catch( (error) => {
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 

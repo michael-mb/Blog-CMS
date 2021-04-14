@@ -36,21 +36,21 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <h2>Comments</h2>
           <div v-for="comment in article.comments" :key="comment.id" class="comment-box">
+            <i class="fas fa-window-close close" v-if="(isLoggedIn && isModerator)
+            || (comment.authorName === userInfos.nickname)" @click="deleteComment(comment.id)"></i>
             <span class="author">{{comment.authorName}}</span>
             <p class="text">{{comment.comment}}</p>
           </div>
-          <form name="sentMessage" id="contactForm" v-if="isLoggedIn">
-            <div class="control-group">
-              <div class="form-group floating-label-form-group controls">
-                <label>Message</label>
-                <textarea rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
-                <p class="help-block text-danger"></p>
-              </div>
+
+          <div v-if="isLoggedIn" class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Message</label>
+              <textarea v-model="comment" rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
+              <p class="help-block text-danger"></p>
             </div>
-            <br>
-            <div id="success"></div>
-            <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
-          </form>
+          </div>
+          <br>
+          <button v-if="isLoggedIn" @click="addComment" class="btn btn-primary" id="sendMessageButton">Send</button>
         </div>
       </div>
     </div>
@@ -70,6 +70,7 @@ export default {
   props:['id'],
   data () {
     return {
+      comment: ''
     }
   },
   components: {Stars, Footer, Header},
@@ -82,18 +83,47 @@ export default {
     },
     article: function (){
       return this.$store.state.article
-    }
+    },
+    userInfos : function (){
+      return this.$store.state.userInfos
+    },
   },
   mounted() {
     if(!this.isLoggedIn){
       this.$router.push('/login')
     }
     this.$store.dispatch('getArticle' , this.id)
+  },
+  methods:{
+    addComment(){
+      this.$store.dispatch('addComment' , {
+        comment : this.comment,
+        articleId : this.article.id,
+        authorName : this.userInfos.nickname,
+      }).then( (response) => {
+        console.log(response)
+        this.comment = ''
+      }).catch( (error) => {
+        console.log(error)
+      })
+    },
+    deleteComment(commentId){
+      if(confirm("do you really want to delete your comment ?")){
+        confirm("do you really want to delete your comment ?")
+        this.$store.dispatch('deleteComment' , {
+          commentId : commentId,
+        })
+      }
+    },
   }
 }
 </script>
 
 <style scoped>
+.close{
+  color: red;
+  cursor: pointer;
+}
 .author{
   font-size: 16px;
 }
@@ -104,7 +134,6 @@ export default {
 .comment-box{
   min-width: 500px;
   color: white;
-  float: left;
   height: auto;
   font-size: 17px;
   border: 1px solid #CCC;
@@ -112,5 +141,6 @@ export default {
   margin-top: 15px;
   padding: 6px 8px;
   border-radius: 15px;
+  z-index: 500;
 }
 </style>

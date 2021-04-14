@@ -1,6 +1,6 @@
 <template>
   <div class="post-preview">
-    <i class="fas fa-window-close close" v-if="isLoggedIn & isModerator"></i>
+    <i class="fas fa-window-close close" v-if="isLoggedIn & isModerator" @click="deletePost"></i>
     <RouterLink :to="{name: 'post', params : { id : postId}}">
       <h2 class="post-title">
         {{ title }}
@@ -34,6 +34,12 @@ export default {
       return this.$store.state.userInfos.moderator === true
     },
   },
+  methods: {
+    deletePost(){
+      if(confirm("Do you really want to delete this Post ?"))
+        this.$store.dispatch('deletePost', this.postId)
+    }
+  }
 }
 </script>
 

@@ -4,6 +4,7 @@ import com.auth.template.demo.scopes.blog.Entities.Article;
 import com.auth.template.demo.scopes.blog.Entities.Comment;
 import com.auth.template.demo.scopes.blog.repositories.ArticleRepository;
 import com.auth.template.demo.scopes.blog.repositories.CommentRepository;
+import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +63,12 @@ public class ArticleService {
         return new ArrayList<>(article.get().getComments());
     }
 
-    public void deleteCommentById(Long commentId){
+
+    public Optional<Comment> getCommentById(Long commentId){
+        return commentRepository.findById(commentId);
+    }
+
+        public void deleteCommentById(Long commentId){
         if(commentId == null) throw new NullPointerException("comment should not be null");
 
         Optional<Comment> comment = commentRepository.findById(commentId);

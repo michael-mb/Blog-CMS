@@ -8,10 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Article {
@@ -60,7 +57,7 @@ public class Article {
     @Column
     @Fetch(FetchMode.JOIN)
     @OneToMany
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new LinkedList<>();
 
     private LocalDate date;
 

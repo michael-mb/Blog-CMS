@@ -166,7 +166,62 @@ const store = createStore({
             }).catch((error) =>{
                 console.log(error)
             })
-        }
+        },
+        createArticle: ({commit} , article) => {
+            return new Promise( (resolve , reject) => {
+                commit('setStatus', 'loading')
+                instance.post('/api/blog/article/add' , {
+                    title : article.title,
+                    subtitle : article.subtitle,
+                    image : article.image,
+                    text : article.text,
+                    author : article.author
+                }).then((response) => {
+                    commit('setStatus', 'created')
+                    commit('loadArticles', response.data)
+                    resolve(response)
+                }).catch((error) =>{
+                    commit('setStatus', 'error_create')
+                    reject(error)
+                })
+            })
+        },
+        deletePost: ({commit} , postId) => {
+            instance.get('/api/blog/article/delete/'+ postId).
+            then((response) => {
+                commit('loadArticles', response.data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        },
+        addComment: ({commit} , comment) => {
+            return new Promise( (resolve , reject) => {
+                commit('setStatus', 'loading')
+                instance.post('/api/blog/article/addComment' , {
+                    authorName : comment.authorName,
+                    articleId : comment.articleId,
+                    comment : comment.comment,
+                }).then((response) => {
+                    commit('loadArticle', response.data)
+                    console.log(comment)
+                    resolve(response)
+                }).catch((error) =>{
+                    console.log(comment)
+                    console.log("hiii")
+                    alert("stop")
+                    reject(error)
+                })
+            })
+        },
+        deleteComment: ({commit} , commentId) => {
+            instance.get('/api/blog/article/deleteComment/'+ commentId.commentId).
+            then((response) => {
+                console.log(response)
+                commit('loadArticle', response.data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        },
     }
 })
 export default store;
