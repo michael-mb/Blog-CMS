@@ -45,7 +45,6 @@ export default {
     back : String
   },
   mounted: function () {
-    if(this.isLoggedIn)
       this.$store.dispatch('getUserInfos')
   },
   computed:{

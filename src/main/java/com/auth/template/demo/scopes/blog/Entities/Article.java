@@ -7,7 +7,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -57,7 +60,9 @@ public class Article {
     @Column
     @Fetch(FetchMode.JOIN)
     @OneToMany
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments = new ArrayList<>();
+
+    private LocalDate date;
 
     @SuppressWarnings("unused")
     public Article() {
@@ -70,6 +75,7 @@ public class Article {
         this.text = text;
         this.note = 0L;
         this.author = author;
+        this.date = LocalDate.now();
     }
 
     public long getId() {
@@ -128,14 +134,21 @@ public class Article {
         this.author = author;
     }
 
-    public Set<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {
@@ -147,6 +160,7 @@ public class Article {
                 ", text='" + text + '\'' +
                 ", note=" + note +
                 ", author=" + author +
+                ", date=" + date +
                 '}';
     }
 }

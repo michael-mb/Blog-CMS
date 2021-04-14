@@ -28,7 +28,7 @@ import Header from "@/components/Header";
 export default {
 name: "ProfilePage",
   components: {Header},
-  mounted: function () {
+  created: function () {
     if(this.$store.state.user.id === -1){
       this.$router.push('/')
     }

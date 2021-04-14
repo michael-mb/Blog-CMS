@@ -7,11 +7,11 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
-            <h1>Man must explore, and this is exploration at its greatest</h1>
-            <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
+            <h1>{{article.title}}</h1>
+            <h2 class="subheading">{{article.subtitle}}</h2>
             <span class="meta">Posted by
-              <a href="#">Start Bootstrap</a>
-              on August 24, 2019</span>
+              <a href="#">{{article.author}}</a>
+              on {{article.date}}</span>
           </div>
         </div>
       </div>
@@ -23,17 +23,10 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-          <p>Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.</p>
-
-          <p>Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning back from science. The early warnings about technological dangers also come from science.</p>
-
-          <p>What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye on the earth.</p>
-
-          <p>A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not help but love and cherish her.</p>
-
-          <Stars note="2"></Stars>
+          <p>{{article.text}}</p>
+          <Stars :note="article.note"></Stars>
           <p>Placeholder text by
-            <a href="http://spaceipsum.com/">AUTHOR</a>.
+            <a href="#">{{article.author}}</a>.
           </p>
         </div>
       </div>
@@ -42,9 +35,9 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <h2>Comments</h2>
-          <div class="comment-box">
-            <span class="author">Michael Mboni</span>
-            <p class="text">A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her protectors rather than</p>
+          <div v-for="comment in article.comments" :key="comment.id" class="comment-box">
+            <span class="author">{{comment.authorName}}</span>
+            <p class="text">{{comment.comment}}</p>
           </div>
           <form name="sentMessage" id="contactForm" v-if="isLoggedIn">
             <div class="control-group">
@@ -74,6 +67,11 @@ import Footer from "@/components/Footer";
 import Stars from "@/components/Stars";
 export default {
   name: "PostPage",
+  props:['id'],
+  data () {
+    return {
+    }
+  },
   components: {Stars, Footer, Header},
   computed: {
     isLoggedIn: function () {
@@ -82,11 +80,15 @@ export default {
     isModerator: function () {
       return this.$store.state.userInfos.moderator === true
     },
+    article: function (){
+      return this.$store.state.article
+    }
   },
   mounted() {
     if(!this.isLoggedIn){
       this.$router.push('/login')
     }
+    this.$store.dispatch('getArticle' , this.id)
   }
 }
 </script>
@@ -100,6 +102,7 @@ export default {
   margin-bottom: 15px ;
 }
 .comment-box{
+  min-width: 500px;
   color: white;
   float: left;
   height: auto;

@@ -30,7 +30,7 @@ const routes = [
     },
     {
         name: 'post',
-        path: '/post',
+        path: '/post:id',
         component: PostPage,
         props: true
     },

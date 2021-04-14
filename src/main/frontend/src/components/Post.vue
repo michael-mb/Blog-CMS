@@ -1,7 +1,7 @@
 <template>
   <div class="post-preview">
     <i class="fas fa-window-close close" v-if="isLoggedIn & isModerator"></i>
-    <RouterLink to="/post">
+    <RouterLink :to="{name: 'post', params : { id : postId}}">
       <h2 class="post-title">
         {{ title }}
       </h2>
@@ -20,6 +20,7 @@
 export default {
   name: "Post",
   props: {
+    postId : Number,
     title : String,
     subtitle : String,
     author : String,

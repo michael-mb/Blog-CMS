@@ -28,6 +28,7 @@ const store = createStore({
         userInfos:{
         },
         users: [],
+        article: {},
         articles: []
     },
     mutations: {
@@ -41,22 +42,26 @@ const store = createStore({
         },
         userInfos: (state , userInfos) => {
             state.userInfos = userInfos
-            state.userInfos.grantedAuthorities.forEach((e)=>{
-                if(e === 'ADMIN')
-                    userInfos["admin"]=true
-                if(e === 'MODERATOR')
-                    userInfos["moderator"]=true
-            })
+            if(userInfos.grantedAuthorities !== undefined){
+
+                state.userInfos.grantedAuthorities.forEach((e)=>{
+                    if(e === 'ADMIN')
+                        userInfos["admin"]=true
+                    if(e === 'MODERATOR')
+                        userInfos["moderator"]=true
+                })
+            }
         },
         loadUsers: (state, users) =>{
             state.users = users
         },
-        /*
+        loadArticle: (state, article) =>{
+            state.article = article
+        },
         loadArticles: (state, articles) =>{
             state.articles = articles
         },
 
-         */
         logout: (state) =>{
             state.user = {
                 id: -1,
@@ -140,7 +145,20 @@ const store = createStore({
                 console.log(error)
             })
         },
-        /*
+        getArticle: ({commit}, articleId) => {
+            return new Promise( (resolve , reject) => {
+                instance.get('/api/blog/article/'+articleId).
+                then((response) => {
+                    console.log(response.data)
+                    commit('loadArticle', response.data)
+                    resolve(response)
+                }).catch((error) =>{
+                    console.log(error)
+                    reject(error)
+                })
+            })
+
+        },
         getArticles: ({commit}) => {
             instance.get('/api/blog/').
             then((response) => {
@@ -148,7 +166,7 @@ const store = createStore({
             }).catch((error) =>{
                 console.log(error)
             })
-        }*/
+        }
     }
 })
 export default store;

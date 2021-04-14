@@ -2,6 +2,7 @@ package com.auth.template.demo.scopes.general;
 
 
 import com.auth.template.demo.scopes.blog.Entities.Article;
+import com.auth.template.demo.scopes.blog.Entities.Comment;
 import com.auth.template.demo.scopes.blog.Entities.TestArticle;
 import com.auth.template.demo.scopes.blog.services.ArticleService;
 import com.auth.template.demo.scopes.user.entities.TestUser;
@@ -50,10 +51,16 @@ public class Initializer {
     private void setupDemoArticles() {
         LOG.info("Creating default Test Articles.");
         Article article ;
+
         for (TestArticle testArticle : TestArticle.values()) {
             article = new Article(testArticle.title, testArticle.subtitle, testArticle.image, testArticle.text, testArticle.author);
             articleService.saveArticle(article);
         }
+
+        Comment comment = new Comment("Anderson", 4L , "HALLO");
+        Comment comment2 = new Comment("Anderson2", 4L , "HALLO2");
+        articleService.addComment(comment);
+        articleService.addComment(comment2);
     }
 
     private boolean setupDemoUsers(String database){

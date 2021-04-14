@@ -9,7 +9,7 @@
             <i class="fas fa-plus-circle add-icon"></i>
           </router-link>
         </div>
-        <Post v-for="post  in posts" :key="post.id" :subtitle="post.subtitle" :date="post.date" :text="post.text" :title="post.title"></Post>
+        <Post v-for="post  in articles" :key="post.id" :postId="post.id" :author="post.author" :subtitle="post.subtitle" :date="post.date" :text="post.text" :title="post.title"></Post>
       </div>
     </div>
   </div>
@@ -33,31 +33,12 @@ export default {
     isModerator: function () {
       return this.$store.state.userInfos.moderator === true
     },
+    articles: function (){
+      return this.$store.state.articles
+    }
   },
-  created() {
-    this.posts = [
-      {
-        id:1,
-        title: 'Man must explore, and this is exploration at its greatest',
-        subtitle: 'Problems look mighty small from 150 miles up',
-        date: 'September 24, 2019',
-        text: 'Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman\'s earth, if free men make it, will be truly round: a globe in practice, not in theory',
-      },
-      {
-        id:2,
-        title: 'Man must explore, and this is exploration at its greatest',
-        subtitle: 'Problems look mighty small from 150 miles up',
-        date: 'September 24, 2019',
-        text: 'Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman\'s earth, if free men make it, will be truly round: a globe in practice, not in theory',
-      },
-      {
-        id:3,
-        title: 'Man must explore, and this is exploration at its greatest',
-        subtitle: 'Problems look mighty small from 150 miles up',
-        date: 'September 24, 2019',
-        text: 'Never in all their history have men been able truly to conceive of the world as one: a single sphere, a globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which there is no center because every point, or none, is center — an equal earth which all men occupy as equals. The airman\'s earth, if free men make it, will be truly round: a globe in practice, not in theory',
-      },
-    ]
+  mounted() {
+    this.$store.dispatch("getArticles")
   }
 }
 </script>
