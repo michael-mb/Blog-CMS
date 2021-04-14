@@ -3,6 +3,7 @@ package com.auth.template.demo.scopes.blog;
 import com.auth.template.demo.scopes.auth.payload.response.MessageResponse;
 import com.auth.template.demo.scopes.blog.Entities.Article;
 import com.auth.template.demo.scopes.blog.Entities.Comment;
+import com.auth.template.demo.scopes.blog.forms.NoteDto;
 import com.auth.template.demo.scopes.blog.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -81,5 +82,22 @@ public class ArticleController {
 
         articleService.deleteCommentById(commentId.get());
         return ResponseEntity.ok(articleService.getArticleById(articleService.getCommentById(commentId.get()).get().getArticleId()));
+    }
+
+    @PostMapping("/addNote")
+    public ResponseEntity<?> addNote(@RequestBody NoteDto noteDto){
+
+        if(noteDto == null)
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: NoteDto not present"));
+        if(noteDto.mail.isEmpty())
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Author mail not present"));
+        if(noteDto.articleId == null)
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Article id not present"));
+        if(noteDto.note == null)
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Note is not present"));
+
+        articleService.updateNote(noteDto);
+
+        return ResponseEntity.ok(articleService.getArticleById(noteDto.articleId));
     }
 }

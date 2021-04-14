@@ -222,6 +222,15 @@ const store = createStore({
                 console.log(error)
             })
         },
+        addNote: ({commit} , noteForm) => {
+            instance.post('/api/blog/addNote' , noteForm).
+            then((response) => {
+                console.log(response)
+                commit('loadArticle', response.data)
+            }).catch((error) =>{
+                console.log(error)
+            })
+        },
     }
 })
 export default store;

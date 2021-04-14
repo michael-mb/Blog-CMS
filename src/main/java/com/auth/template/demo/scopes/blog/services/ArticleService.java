@@ -2,6 +2,7 @@ package com.auth.template.demo.scopes.blog.services;
 
 import com.auth.template.demo.scopes.blog.Entities.Article;
 import com.auth.template.demo.scopes.blog.Entities.Comment;
+import com.auth.template.demo.scopes.blog.forms.NoteDto;
 import com.auth.template.demo.scopes.blog.repositories.ArticleRepository;
 import com.auth.template.demo.scopes.blog.repositories.CommentRepository;
 import org.checkerframework.checker.nullness.Opt;
@@ -22,7 +23,6 @@ public class ArticleService {
 
     public void saveArticle(Article article){
         if(article == null) throw new NullPointerException("Article must no be null");
-        System.err.println(article);
         articleRepository.save(article);
     }
 
@@ -93,5 +93,18 @@ public class ArticleService {
             article.getComments().remove(comment);
             commentRepository.delete(comment);
         }
+    }
+
+    public void updateNote(NoteDto noteDto) {
+        Optional<Article> article = articleRepository.findById(noteDto.articleId);
+        if (article.isEmpty()) throw new NullPointerException("article is not in database");
+        if(article.get().getNote() == 0)
+            article.get().setNote(noteDto.note);
+        else{
+            article.get().setNote(
+                    (Long)((article.get().getNote() + noteDto.note) / 2)
+            );
+        }
+        saveArticle(article.get());
     }
 }

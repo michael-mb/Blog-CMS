@@ -11,6 +11,11 @@ export default {
   name: "Stars",
   props: {
     note: Number
+  },
+  methods: {
+    updateNote(i){
+      this.$emit("addNote", i)
+    }
   }
 }
 </script>

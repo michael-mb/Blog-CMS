@@ -24,7 +24,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <p>{{article.text}}</p>
-          <Stars :note="article.note"></Stars>
+          <Stars @addNote="addNote" :note="article.note"></Stars>
           <p>Placeholder text by
             <a href="#">{{article.author}}</a>.
           </p>
@@ -120,6 +120,13 @@ export default {
         })
       }
     },
+    addNote(i){
+      this.$store.dispatch('addNote' , {
+        articleId : this.article.id,
+        mail : this.userInfos.email,
+        note : i
+      })
+    }
   }
 }
 </script>
