@@ -1,4 +1,4 @@
-package com.auth.template.demo.scopes.blog.Entities;
+package com.auth.template.demo.scopes.blog.entities;
 
 
 import javax.persistence.Column;

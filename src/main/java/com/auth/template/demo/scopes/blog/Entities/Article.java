@@ -1,4 +1,4 @@
-package com.auth.template.demo.scopes.blog.Entities;
+package com.auth.template.demo.scopes.blog.entities;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -51,7 +51,7 @@ public class Article {
     @NotBlank
     @NotEmpty
     @NotNull
-    private Long note;
+    private Long note = 0L;
 
 
     @Column
@@ -70,7 +70,6 @@ public class Article {
         this.subtitle = subtitle;
         this.image = image;
         this.text = text;
-        this.note = 0L;
         this.author = author;
         this.date = LocalDate.now();
     }

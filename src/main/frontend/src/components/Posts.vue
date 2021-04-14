@@ -35,7 +35,7 @@ export default {
     },
     articles: function (){
       return this.$store.state.articles
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("getArticles")

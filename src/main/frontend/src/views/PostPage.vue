@@ -50,7 +50,7 @@
             </div>
           </div>
           <br>
-          <button v-if="isLoggedIn" @click="addComment" class="btn btn-primary" id="sendMessageButton">Send</button>
+          <button v-if="isLoggedIn" :class="{'button--disabled' : validatedFields}" @click="addComment" class="btn btn-primary" id="sendMessageButton">Send</button>
         </div>
       </div>
     </div>
@@ -92,6 +92,9 @@ export default {
         "background-image" : 'url('+this.article.image+')'
       }
     },
+    validatedFields: function (){
+      return this.comment === ''
+    }
   },
   mounted() {
     if(!this.isLoggedIn){
@@ -154,5 +157,13 @@ export default {
   padding: 6px 8px;
   border-radius: 15px;
   z-index: 500;
+}
+.button--disabled {
+  background:#cecece;
+  color:#ececec
+}
+.button--disabled:hover {
+  cursor:not-allowed;
+  background:#cecece;
 }
 </style>

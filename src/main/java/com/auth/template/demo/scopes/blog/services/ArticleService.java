@@ -1,11 +1,10 @@
 package com.auth.template.demo.scopes.blog.services;
 
-import com.auth.template.demo.scopes.blog.Entities.Article;
-import com.auth.template.demo.scopes.blog.Entities.Comment;
+import com.auth.template.demo.scopes.blog.entities.Article;
+import com.auth.template.demo.scopes.blog.entities.Comment;
 import com.auth.template.demo.scopes.blog.forms.NoteDto;
 import com.auth.template.demo.scopes.blog.repositories.ArticleRepository;
 import com.auth.template.demo.scopes.blog.repositories.CommentRepository;
-import org.checkerframework.checker.nullness.Opt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

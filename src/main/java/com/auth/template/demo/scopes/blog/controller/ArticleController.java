@@ -1,8 +1,8 @@
-package com.auth.template.demo.scopes.blog;
+package com.auth.template.demo.scopes.blog.controller;
 
 import com.auth.template.demo.scopes.auth.payload.response.MessageResponse;
-import com.auth.template.demo.scopes.blog.Entities.Article;
-import com.auth.template.demo.scopes.blog.Entities.Comment;
+import com.auth.template.demo.scopes.blog.entities.Article;
+import com.auth.template.demo.scopes.blog.entities.Comment;
 import com.auth.template.demo.scopes.blog.forms.NoteDto;
 import com.auth.template.demo.scopes.blog.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;

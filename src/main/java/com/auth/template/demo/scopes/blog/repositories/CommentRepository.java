@@ -1,6 +1,6 @@
 package com.auth.template.demo.scopes.blog.repositories;
 
-import com.auth.template.demo.scopes.blog.Entities.Comment;
+import com.auth.template.demo.scopes.blog.entities.Comment;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
