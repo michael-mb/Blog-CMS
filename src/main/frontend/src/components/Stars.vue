@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="wrapper">
+    <span class="notation">Notation</span> :
     <span class="fa fa-star"
           v-for="i in 5" :key="i" :class="{ 'checked' : i <= note}" @click="updateNote(i)">
     </span>
@@ -21,6 +22,14 @@ export default {
 </script>
 
 <style scoped>
+.wrapper{
+  position: relative;
+  padding: 10px;
+  text-align: center;
+}
+.notation{
+  font-weight: bold;
+}
 .checked{
   color: yellow;
   border: #212529;
