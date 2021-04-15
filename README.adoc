@@ -22,6 +22,10 @@ This is a blog CMS developed with Vue JS and Spring boot with the following feat
 
 . Comment an Article (For all Users)
 
+. Change / Reset Password (For all Users)
+
+. Edit profile (For all Users)
+
 . Delete your comment (For all Users but the Admin can delete for all Users)
 
 === INSTALLATION
