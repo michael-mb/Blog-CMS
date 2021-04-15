@@ -1,6 +1,7 @@
 package com.auth.template.demo.scopes.user.services;
 
 
+import com.auth.template.demo.scopes.auth.forms.EditForm;
 import com.auth.template.demo.scopes.auth.forms.SignUpDto;
 import com.auth.template.demo.scopes.token.TokenServiceImpl;
 import com.auth.template.demo.scopes.user.entities.User;
@@ -134,4 +135,17 @@ public class UserService {
     private String capitalize(String str){
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+
+    public void editUser(EditForm editForm , Long id) {
+        Optional<User> user = findUserById(id);
+        if(user.isEmpty()) throw new NullPointerException("The user with this Id doesn't exist");
+
+        if(passwordEncoder.matches(editForm.password, user.get().getHashedPassword())) {
+            user.get().setFirstname(editForm.firstname);
+            user.get().setLastname(editForm.lastname);
+            user.get().setNickname(editForm.nickname);
+            updatePassword(editForm.newPassword,user.get());
+        }
+    }
+
 }

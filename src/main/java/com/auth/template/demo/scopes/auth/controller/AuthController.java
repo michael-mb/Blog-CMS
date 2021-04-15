@@ -1,6 +1,7 @@
 package com.auth.template.demo.scopes.auth.controller;
 
 
+import com.auth.template.demo.scopes.auth.forms.EditForm;
 import com.auth.template.demo.scopes.auth.forms.SignUpDto;
 import com.auth.template.demo.scopes.auth.payload.response.MessageResponse;
 import com.auth.template.demo.scopes.auth.forms.LoginDto;
@@ -10,6 +11,7 @@ import com.auth.template.demo.scopes.security.StaticUtils;
 import com.auth.template.demo.scopes.token.TokenServiceImpl;
 import com.auth.template.demo.scopes.user.entities.User;
 import com.auth.template.demo.scopes.user.services.UserService;
+import org.checkerframework.checker.nullness.Opt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +126,23 @@ public class AuthController {
         userService.deleteUser(userId);
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    @PostMapping("/editUser/{userId}")
+    public ResponseEntity<?> editUser(@RequestHeader (name="Authorization") Optional<String> token , @PathVariable Optional <Long> userId ,
+                                      @RequestBody EditForm editForm) {
+        if(token.isEmpty())
+            ResponseEntity.badRequest().body(new MessageResponse("An Error occured"));
+
+        if(userId.isEmpty())
+            ResponseEntity.badRequest().body(new MessageResponse("UserId is Empty"));
+
+        if(editForm == null)
+            ResponseEntity.badRequest().body(new MessageResponse("Editform is null"));
+
+        userService.editUser(editForm , userId.get());
+        return ResponseEntity.ok(userService.findUserById(userId.get()));
+    }
+
 
     @GetMapping("/logout")
     public ResponseEntity<?> handleLogout(Authentication authentication) {

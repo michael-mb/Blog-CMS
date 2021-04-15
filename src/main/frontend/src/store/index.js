@@ -203,12 +203,9 @@ const store = createStore({
                     comment : comment.comment,
                 }).then((response) => {
                     commit('loadArticle', response.data)
-                    console.log(comment)
                     resolve(response)
                 }).catch((error) =>{
                     console.log(comment)
-                    console.log("hiii")
-                    alert("stop")
                     reject(error)
                 })
             })
@@ -229,6 +226,25 @@ const store = createStore({
                 commit('loadArticle', response.data)
             }).catch((error) =>{
                 console.log(error)
+            })
+        },
+        editProfile: ({commit} , userForm) => {
+            return new Promise( (resolve , reject) => {
+                commit('setStatus', 'loading')
+                instance.post('/api/auth/editUser/'+ userForm.id , {
+                    firstname : userForm.firstname,
+                    lastname : userForm.lastname,
+                    nickname : userForm.nickname,
+                    password : userForm.password,
+                    newPassword: userForm.newPassword
+                }).then((response) => {
+                    commit('userInfos', response.data)
+                    commit('setStatus', ' ')
+                    resolve(response)
+                }).catch((error) =>{
+                    commit('setStatus' , 'edit-error')
+                    reject(error)
+                })
             })
         },
     }
