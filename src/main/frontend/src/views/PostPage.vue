@@ -104,20 +104,21 @@ export default {
   },
   methods:{
     addComment(){
-      this.$store.dispatch('addComment' , {
-        comment : this.comment,
-        articleId : this.article.id,
-        authorName : this.userInfos.nickname,
-      }).then( (response) => {
-        console.log(response)
-        this.comment = ''
-      }).catch( (error) => {
-        console.log(error)
-      })
+      if(!this.validatedFields){
+        this.$store.dispatch('addComment' , {
+          comment : this.comment,
+          articleId : this.article.id,
+          authorName : this.userInfos.nickname,
+        }).then( (response) => {
+          console.log(response)
+          this.comment = ''
+        }).catch( (error) => {
+          console.log(error)
+        })
+      }
     },
     deleteComment(commentId){
       if(confirm("do you really want to delete your comment ?")){
-        confirm("do you really want to delete your comment ?")
         this.$store.dispatch('deleteComment' , {
           commentId : commentId,
         })
