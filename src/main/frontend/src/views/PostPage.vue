@@ -35,9 +35,11 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <h2>Comments</h2>
-          <div v-for="comment in article.comments" :key="comment.id" class="comment-box">
+          <div v-for="comment in article.comments" :key="comment.id" class="comment-box"
+               :class="{'comment-owner' : (comment.authorName === userInfos.nickname)}">
             <i class="fas fa-window-close close" v-if="(isLoggedIn && isModerator)
-            || (comment.authorName === userInfos.nickname)" @click="deleteComment(comment.id)"></i>
+            || (comment.authorName === userInfos.nickname)" @click="deleteComment(comment.id)"
+            ></i>
             <span class="author">{{comment.authorName}}</span>
             <p class="text">{{comment.comment}}</p>
           </div>
@@ -142,6 +144,8 @@ export default {
 }
 .author{
   font-size: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
 }
 .text{
   margin-top: 15px;
@@ -158,6 +162,10 @@ export default {
   padding: 6px 8px;
   border-radius: 15px;
   z-index: 500;
+}
+.comment-owner{
+  color: black;
+  background: #d0d0d0;
 }
 .button--disabled {
   background:#cecece;
